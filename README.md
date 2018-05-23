@@ -1,6 +1,6 @@
 # pi-gen-configurator
 
-A tool that lets you configure images for Raspberry Pi. The script will clone [RPi-Distro/pi-gen](https://github.com/RPi-Distro/pi-gen), which is an official tool to create the raspberrypi.org Raspbian images. Then the script will ask for some parameters to set and make an image.
+A tool that lets you configure images for Raspberry Pi. The script will clone [RPi-Distro/pi-gen](https://github.com/RPi-Distro/pi-gen), which is an official tool to create the raspberrypi.org Raspbian images. Then the script will ask for some parameters and make an image.
 
 ## Usage
 
@@ -11,7 +11,10 @@ Parameters can be set either throught command line or they will be asked during 
 For example we can make an image using the following command (password and passphrase will be asked during the build):
 
 ```sh
-./pi-gen-configurator.py --hostname "raspberry" --username pi --country_code GB --ssid "WiFi" --authtoken "ngrok_auth_token" --locale "en_GB.UTF-8" --timezone "Europe/London" --keymap gb --layout "English (GB)"
+./pi-gen-configurator.py --hostname "raspberry" --username pi \
+  --country_code GB --ssid "WiFi" --authtoken "ngrok_auth_token" \
+  --locale "en_GB.UTF-8" --timezone "Europe/London" \
+  --keymap gb --layout "English (GB)"
 ```
 
 ## Parameters
