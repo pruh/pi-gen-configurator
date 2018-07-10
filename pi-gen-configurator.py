@@ -58,12 +58,13 @@ def main():
     sys.excepthook = handle_exception
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-o', '--hostname', action='store', type=str, help='Hostname')
+    parser.add_argument('-o', '--hostname', action='store', type=str, help='hostname')
     parser.add_argument('-u', '--username', action='store', type=str, help='username')
     parser.add_argument('-p', '--password', action='store', type=str, help='user password')
-    parser.add_argument('-c', '--country_code', action='store', type=str, help='WiFi Country Code (can be found at https://en.wikipedia.org/wiki/ISO_3166-1)')
+    parser.add_argument('-c', '--country-code', action='store', type=str, help='WiFi Country Code (can be found at https://en.wikipedia.org/wiki/ISO_3166-1)')
     parser.add_argument('-s', '--ssid', action='store', type=str, help='WiFi SSID')
-    parser.add_argument('-w', '--psk', action='store', type=str, help='WiFi Passphrase')
+    parser.add_argument('-w', '--passphrase', action='store', type=str, help='WiFi Passphrase')
+    parser.add_argument('--skip-ngrok', action='store_true', help='skip ngrok')
     parser.add_argument('-a', '--authtoken', action='store', type=str, help='ngrok auth token')
     parser.add_argument('-l', '--locale', action='store', type=str, help='locale')
     parser.add_argument('-t', '--timezone', action='store', type=str, help='timezone')
@@ -77,23 +78,23 @@ def main():
 
     _skip_desktop()
 
-    _set_hostname(args.hostname)
+    _set_hostname(hostname=args.hostname)
 
-    _change_user_and_password(args.username, args.password)
+    _change_user_and_password(username=args.username, password=args.password)
 
-    _set_wifi_settings(args.country_code, args.ssid, args.psk)
+    _set_wifi_settings(country_code=args.country_code, ssid=args.ssid, passphrase=args.passphrase)
 
     _enable_ssh()
 
-    _install_ngrok(args.authtoken)
+    _install_ngrok(skip_ngrok=args.skip_ngrok, authtoken=args.authtoken)
 
-    _change_locale(args.locale)
+    _change_locale(locale=args.locale)
 
-    _change_timezone(args.timezone)
+    _change_timezone(timezone=args.timezone)
 
-    _change_keyborad_layout(args.keymap, args.layout)
+    _change_keyborad_layout(keymap=args.keymap, layout=args.layout)
 
-    _build_image(args.hostname)
+    _build_image(hostname=args.hostname)
 
     _copy_artifacts()
 
@@ -228,7 +229,14 @@ def _enable_ssh():
     os.chmod(full_path, 0o755)
 
 
-def _install_ngrok(authtoken=None):
+def _install_ngrok(skip_ngrok=False, authtoken=None):
+    if skip_ngrok is True:
+        return
+
+    yes_no = query_yes_no('do you want to seu up ngrok', 'no')
+    if yes_no == 'no':
+        return
+
     target_dir = 'pi-gen/stage2/04-custom-installations/'
     files_dirname = 'files'
     files_dir = os.path.join(target_dir, files_dirname, '')
@@ -387,6 +395,38 @@ def _copy_artifacts():
 def _clean_up():
     pass
     # shutil.rmtree('pi-gen')
+
+
+def query_yes_no(question, default="yes"):
+    """Ask a yes/no question via raw_input() and return their answer.
+
+    "question" is a string that is presented to the user.
+    "default" is the presumed answer if the user just hits <Enter>.
+        It must be "yes" (the default), "no" or None (meaning
+        an answer is required of the user).
+
+    The "answer" return value is True for "yes" or False for "no".
+    """
+    valid = {"yes": True, "y": True, "ye": True,
+             "no": False, "n": False}
+    if default is None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while True:
+        choice = input(question + prompt).lower()
+        if default is not None and choice == '':
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' "
+                             "(or 'y' or 'n').\n")
 
 
 if __name__ == '__main__':
