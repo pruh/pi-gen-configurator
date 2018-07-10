@@ -66,10 +66,11 @@ def main():
     parser.add_argument('-w', '--passphrase', action='store', type=str, help='WiFi Passphrase')
     parser.add_argument('--skip-ngrok', action='store_true', help='skip ngrok')
     parser.add_argument('-a', '--authtoken', action='store', type=str, help='ngrok auth token')
-    parser.add_argument('-l', '--locale', action='store', type=str, help='locale')
-    parser.add_argument('-t', '--timezone', action='store', type=str, help='timezone')
-    parser.add_argument('-k', '--keymap', action='store', type=str, help='keyboard keymap')
-    parser.add_argument('-y', '--layout', action='store', type=str, help='keyboard layout')
+    parser.add_argument('-l', '--locale', action='store', type=str, help='locale (e.g. en_US.UTF-8)')
+    parser.add_argument('-t', '--timezone', action='store', type=str, help='timezone (e.g. America/New_York, '
+            'can be found at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)')
+    parser.add_argument('-k', '--keymap', action='store', type=str, help='keyboard keymap (gb, us, etc.)')
+    parser.add_argument('-y', '--layout', action='store', type=str, help='keyboard layout (English (US), English (UK), etc.)')
     args = parser.parse_args()
 
     _remove_leftovers()
@@ -348,9 +349,9 @@ def _change_keyborad_layout(keymap=None, layout=None):
     # TODO dynamically fetch all of the below
     # TODO should be from /usr/share/X11/xkb/symbols
     if not keymap:
-        keymap = input("What is your keymap (Choices: gb, us, etc.): ")
+        keymap = input("What is your keymap (gb, us, etc.): ")
     if not layout:
-        layout = input("What is your keyboard layout (e.g: English (US), English (UK), etc.): ")
+        layout = input("What is your keyboard layout (English (US), English (UK), etc.): ")
 
     with fileinput.input('pi-gen/stage2/01-sys-tweaks/00-debconf', inplace=True) as file:
         for line in file:

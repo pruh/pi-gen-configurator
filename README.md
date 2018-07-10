@@ -19,18 +19,20 @@ For example we can make an image using the following command (password and passp
 
 ## Parameters
 
-The following parameters can be set:
+The following parameters can be set either using command line or during the build:
 
-* hostname
-* username
-* password
-* country code for wpa_supplicant.conf
-* WiFi SSID
-* WiFi passphrase
-* ngrok auth token - to start an ngrok tunnel hourly cronjob will be created
-* locale
-* timezone
-* keyboard's keymap and layout
+* `-o HOSTNAME` or `--hostname HOSTNAME` to set hostname
+* `-u USERNAME` or `--username USERNAME` to set username
+* `-p PASSWORD` or `--password PASSWORD` to set user password
+* `-c COUNTRY_CODE` or `--country-code COUNTRY_CODE` WiFi Country Code (can be found at https://en.wikipedia.org/wiki/ISO_3166-1)
+* `-s SSID` or `--ssid SSID` to set WiFi SSID
+* `-w PASSPHRASE` or `--passphrase PASSPHRASE` WiFi Passphrase
+* `--skip-ngrok` skip ngrok
+* `-a AUTHTOKEN` or `--authtoken AUTHTOKEN` to set ngrok auth token
+* `-l LOCALE` or `--locale LOCALE` to set locale (e.g. en_US.UTF-8)
+* `-t TIMEZONE` or `--timezone TIMEZONE` to set timezone (e.g. America/New_York, can be found at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+* `-k KEYMAP` or `--keymap KEYMAP` to set keyboard keymap (gb, us, etc.)
+* `-y LAYOUT` or `--layout LAYOUT` to set keyboard layout (English (US), English (UK), etc.)
 
 ## Outputs
 
