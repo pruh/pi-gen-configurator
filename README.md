@@ -12,7 +12,7 @@ For example we can make an image using the following command (password and passp
 
 ```sh
 ./pi-gen-configurator.py --hostname "raspberry" --username pi \
-  --country_code GB --ssid "WiFi" --authtoken "ngrok_auth_token" \
+  --country-code GB --ssid "WiFi" --authtoken "ngrok_auth_token" \
   --locale "en_GB.UTF-8" --timezone "Europe/London" \
   --keymap gb --layout "English (GB)"
 ```
