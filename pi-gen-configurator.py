@@ -131,7 +131,7 @@ def _remove_leftovers():
 def _clone_pi_gen():
     # Clone specific commit to avoid possible issues
     repo_str = 'git@github.com:RPi-Distro/pi-gen.git'
-    sha1 = 'df156f02ff0e93b40caf79b083677beb691e63d1'
+    sha1 = '5436273ec728c8369dab9c08f2739805f20510f7'
 
     repo_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'pi-gen', '')
 
@@ -381,7 +381,7 @@ def _build_image(hostname):
             stderr = ", ".join(map(lambda s: s.rstrip(), proc.stderr.readlines()))
             log.error(f"image building failed with error code {exit_code} " \
                 f"and stderr: {stderr}")
-            raise ConfiguratorError(f'Cannot build image')
+            raise ConfiguratorError(f'Cannot build image, check logs for details')
 
 
 def touch(path):
