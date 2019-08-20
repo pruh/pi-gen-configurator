@@ -77,8 +77,6 @@ def main():
 
     _clone_pi_gen()
 
-    _skip_desktop()
-
     _set_hostname(hostname=args.hostname)
 
     _change_user_and_password(username=args.username, password=args.password)
@@ -143,10 +141,6 @@ def _clone_pi_gen():
 
     log.info(f'checking out {sha1}')
     repo.head.reset(commit=sha1)
-
-
-def _skip_desktop():
-    pass
 
 
 def _set_hostname(hostname=None):
@@ -234,7 +228,10 @@ def _install_ngrok(skip_ngrok=False, authtoken=None):
     if skip_ngrok is True:
         return
 
-    yes_no = query_yes_no('do you want to seu up ngrok', 'no')
+    if authtoken:
+        yes_no = 'yes'
+    else:
+        yes_no = query_yes_no('do you want to set up ngrok', 'no')
     if yes_no == 'no':
         return
 
