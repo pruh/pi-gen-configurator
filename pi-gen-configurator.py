@@ -77,8 +77,6 @@ def main():
 
     _clone_pi_gen()
 
-    _set_hostname(hostname=args.hostname)
-
     _change_user_and_password(username=args.username, password=args.password)
 
     _set_wifi_settings(country_code=args.country_code, ssid=args.ssid, passphrase=args.passphrase)
@@ -141,18 +139,6 @@ def _clone_pi_gen():
 
     log.info(f'checking out {sha1}')
     repo.head.reset(commit=sha1)
-
-
-def _set_hostname(hostname=None):
-    if not hostname:
-        hostname = input("Enter hostname: ")
-
-    with fileinput.input('pi-gen/stage1/02-net-tweaks/00-patches/01-hosts.diff', inplace=True) as file:
-        for line in file:
-            print(line.replace("+127.0.1.1	raspberrypi", f"+127.0.1.1	{hostname}	localhost"), end='')
-
-    with open('pi-gen/stage1/02-net-tweaks/files/hostname', 'w') as f:
-        f.write(hostname)
 
 
 def _change_user_and_password(username=None, password=None):
@@ -358,10 +344,9 @@ def _change_keyborad_layout(keymap=None, layout=None):
 
 def _build_image(hostname):
     """Build image using docker method"""
-    iamge_name = hostname
-    
     with open('pi-gen/config', "w") as f:
-        f.write(f'IMG_NAME={iamge_name}')
+        f.write(f'IMG_NAME={hostname}')
+        f.write(f'HOSTNAME={hostname}')
 
     [touch(it) for it in ['pi-gen/stage3/SKIP', 'pi-gen/stage4/SKIP', 'pi-gen/stage5/SKIP']]
     [touch(it) for it in ['pi-gen/stage4/SKIP_IMAGES', 'pi-gen/stage5/SKIP_IMAGES']]
