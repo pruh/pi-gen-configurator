@@ -345,8 +345,8 @@ def _change_keyborad_layout(keymap=None, layout=None):
 def _build_image(hostname):
     """Build image using docker method"""
     with open('pi-gen/config', "w") as f:
-        f.write(f'IMG_NAME={hostname}')
-        f.write(f'HOSTNAME={hostname}')
+        f.write(f'IMG_NAME={hostname}\n')
+        f.write(f'HOSTNAME={hostname}\n')
 
     [touch(it) for it in ['pi-gen/stage3/SKIP', 'pi-gen/stage4/SKIP', 'pi-gen/stage5/SKIP']]
     [touch(it) for it in ['pi-gen/stage4/SKIP_IMAGES', 'pi-gen/stage5/SKIP_IMAGES']]
