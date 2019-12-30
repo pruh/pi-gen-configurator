@@ -211,14 +211,14 @@ def _enable_ssh():
 
 
 def _install_ngrok(skip_ngrok=False, authtoken=None):
-    if skip_ngrok is True:
+    if skip_ngrok:
         return
 
     if authtoken:
         yes_no = 'yes'
     else:
         yes_no = query_yes_no('do you want to set up ngrok', 'no')
-    if yes_no == 'no':
+    if not yes_no:
         return
 
     target_dir = 'pi-gen/stage2/04-custom-installations/'
@@ -380,7 +380,7 @@ def _clean_up():
     # shutil.rmtree('pi-gen')
 
 
-def query_yes_no(question, default="yes"):
+def query_yes_no(question: str, default: str="yes") -> bool:
     """Ask a yes/no question via raw_input() and return their answer.
 
     "question" is a string that is presented to the user.
