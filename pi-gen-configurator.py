@@ -145,7 +145,12 @@ def _change_user_and_password(username=None, password=None):
     if not username:
         username = input("What is your username: ")
     if not password:
-        password = getpass.getpass("What is your password: ")
+        while True:
+            password = getpass.getpass("What is your password: ")
+            retype = getpass.getpass("Retype your password again: ")
+            if password == retype:
+                break
+            print('Passwords do not match, please try again')
 
     files_dir = 'pi-gen/stage2/03-username-password/'
     if not os.path.exists(files_dir):
@@ -173,7 +178,12 @@ def _set_wifi_settings(country_code=None, ssid=None, passphrase=None):
     if not ssid:
         ssid = input("What is your wifi SSID: ")
     if not passphrase:
-        passphrase = getpass.getpass("Please enter WiFi's passphrase: ")
+        while True:
+            passphrase = getpass.getpass("Please enter WiFi's passphrase: ")
+            retype = getpass.getpass("Retype WiFi's passphrase again: ")
+            if passphrase == retype:
+                break
+            print('Passphrases do not match, please try again')
 
     filename = 'pi-gen/stage2/02-net-tweaks/files/wpa_supplicant.conf'
     with fileinput.input(filename, inplace=True) as f:
