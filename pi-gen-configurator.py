@@ -377,7 +377,7 @@ def _copy_artifacts():
 
 def _clean_up():
     pass
-    # shutil.rmtree('pi-gen')
+    shutil.rmtree('pi-gen')
 
 
 def query_yes_no(question: str, default: str="yes") -> bool:
